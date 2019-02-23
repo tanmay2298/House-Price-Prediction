@@ -34,7 +34,6 @@ print("\n\n\nTraining\n\n")
 
 model.fit(trainX, trainY, validation_data = (testX, testY), epochs = 200, batch_size = 8)
 
-print("Predicting House Prices")
 preds = model.predict(testX)
 
 diff = preds.flatten() - testY
@@ -44,5 +43,8 @@ absPercentDiff = np.abs(percentDiff)
 mean = np.mean(absPercentDiff)
 std = np.std(absPercentDiff)
 
-print(mean)
+print("Predicting House Prices")
+print("Mean House Price :\t", df["price"].mean())
+print("Mean:\t", mean)
+print("Standard Deviation:\t", std)
 

@@ -12,7 +12,7 @@ def load_house_attrib(path):
 	print(df.head(5))
 
 	zipcodes = df["zipcode"].value_counts().keys().tolist()
-	counts = df["zipcode"].value_counts().keys()
+	counts = df["zipcode"].value_counts().tolist()
 
 	for (zipcode, count) in zip(zipcodes, counts):
 		# cleaning the data for zipcodes having count of houses less than 25
@@ -20,7 +20,7 @@ def load_house_attrib(path):
 			id = df[df["zipcode"] == zipcode].index
 			df.drop(id, inplace = True)
 
-		return df
+	return df
 
 def process_house_attributes(df, train, test):
 	continous = ["bedrooms", "bathrooms", "area"]
