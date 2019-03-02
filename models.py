@@ -1,5 +1,4 @@
 # Multilayer Perceptron
-
 from keras.models import Sequential
 from keras.layers.normalization import BatchNormalization
 from keras.layers.convolutional import Conv2D
@@ -19,6 +18,38 @@ def create_mlp(dim, regress = False):
 	# if regression node should be added
 	if regress:
 		model.add(Dense(1, activation = "linear"))
+
+	return model
+
+def create_cnn(width, height, depth, filters = (16, 32, 64), regress = False):
+
+	inputShape = (width, height, depth)
+	chanDim = -1
+
+	inputs = Input(shape = inputShape)
+
+	for (i, f) in enumerate(filters):
+		if x == 0:
+			x = inputs
+
+		x = Conv2D(f, (3, 3), padding = "same")(x)
+		x = Activation("relu")(x)
+		x = BatchNormalization(axis = chanDim)(x)
+		x = MaxPooling2D(pool_size = (2, 2))(x)
+
+	x = Flatten()(x)
+	x = Dense(16)(x)
+	x = Activation("relu")(x)
+	x = BatchNormalization(axis = chanDim)(x)
+	x = Dropout(0.5)(x)
+
+	x = Dense(4)(x)
+	x = Activation("relu")(x)
+
+	if regress:
+		x = Dense(1, activation = "linear")(x)
+
+	model = Model(inputs, x)
 
 	return model
 

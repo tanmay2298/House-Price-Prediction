@@ -5,6 +5,7 @@ import numpy as np
 import glob
 import cv2
 import os
+# import matplotlib.pyplot as plt
 
 def load_house_attrib(path):
 	cols = ["bedrooms", "bathrooms", "area", "zipcode", "price"]
@@ -42,8 +43,31 @@ def process_house_attributes(df, train, test):
 	return trainX, testX
 
 
+def load_img(df, path):
+	images = []
+
+	for i in df.index.values:
+		bP = os.path.sep.join([path, "{}_*".format(i + 1)])
+		hPs = sorted(list(glob.glob(bP)))
+
+		inputImages = []
+		outputImage = np.zeros((64, 64, 3), dtype = "uint8")
+
+		for hP in hPs:
+			img = cv2.imread(hP)
+			img = cv2.resize(img, (32, 32))
+			inputImages.append(img)
+
+		outputImage[0:32, 0:32] = inputImages[0]
+		outputImage[0:32, 32:64] = inputImages[1]
+		outputImage[32:64, 32:64] = inputImages[2]
+		outputImage[32:64, 0:32] = inputImages[3]
+
+		images.append(outputImage)
+	return np.array(images)
 
 # path = "/Users/tanmaygulati/Work/ML:DL/PyImageSearch/Keras_Series_House_Price_Prediction/Houses-dataset-master/Houses_Dataset/HousesInfo.txt"
+# path2 = "/Users/tanmaygulati/Work/ML:DL/PyImageSearch/Keras_Series_House_Price_Prediction/Houses-dataset-master/Houses_Dataset/"
 
 # df = load_house_attrib(path)
 
@@ -52,3 +76,8 @@ def process_house_attributes(df, train, test):
 
 # process_house_attributes(df, train, test)
 
+# images = load_img(df, path2)
+
+# print(images.shape)
+# plt.imshow(images[5])
+# plt.show()
