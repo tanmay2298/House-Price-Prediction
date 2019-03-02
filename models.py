@@ -29,7 +29,7 @@ def create_cnn(width, height, depth, filters = (16, 32, 64), regress = False):
 	inputs = Input(shape = inputShape)
 
 	for (i, f) in enumerate(filters):
-		if x == 0:
+		if i == 0:
 			x = inputs
 
 		x = Conv2D(f, (3, 3), padding = "same")(x)
